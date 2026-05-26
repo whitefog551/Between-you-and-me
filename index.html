@@ -162,62 +162,38 @@
             animation: grain-flicker 0.3s steps(5) infinite;
         }
         
-                        /* 💻 Desktop View: REAL 3D Page Flip Book */
+                                /* 💻 Desktop View: Premium & Safe Layout */
         @media (min-width: 800px) {
             body {
-                background-color: #050000;
+                background-color: #000000;
             }
-            .book-container { 
-                position: relative;
-                width: 50vw; /* Book right side me dikhegi */
-                margin: 50px auto;
-                perspective: 2000px; /* 3D depth ke liye sabse zaroori */
-            }
-            
-            /* Har chapter ek page ban jayega */
-            .chapter {
-                background: #110505;
-                box-shadow: inset 0 0 30px rgba(100,0,0,0.3), 0 0 15px rgba(0,0,0,0.8);
-                padding: 40px;
-                border-radius: 5px 15px 15px 5px;
-                border-left: 2px solid #330000; /* Book ki binding */
-                position: absolute;
-                top: 0; right: 0;
-                width: 100%;
-                transform-origin: left center; /* Panna left side se judaa rahega */
-                transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1s;
-                transform-style: preserve-3d;
-                cursor: pointer;
-                z-index: 5;
-            }
-
-            /* Jab Panna Paltega (JS isko trigger karega) */
-            .chapter.flipped {
-                transform: rotateY(-180deg);
-                opacity: 0; /* Palatne ke baad gayab ho jayega taaki agla dikhe */
-                pointer-events: none;
-            }
-            
-            /* Cover Image specific size */
             .cover-overlay {
-                max-width: 50vw;
-                margin: 0 auto;
+                width: 100%;
+                height: 100vh;
+                position: fixed;
+                left: 0;
+                top: 0;
             }
-            
-                    // REAL 3D PAGE FLIP SCRIPT (For Desktop)
-        if(window.innerWidth > 800) {
-            const pages = document.querySelectorAll('.chapter');
-            let zIndexCount = pages.length;
-            
-            // Har page ko ek ke upar ek stack karna
-            pages.forEach((page, index) => {
-                page.style.zIndex = zIndexCount - index; // Pehla page sabse upar
-                
-                // Click karne par page palatna
-                page.addEventListener('click', function() {
-                    this.classList.toggle('flipped');
-                });
-            });
+            /* Text ko screen ke beech me ek premium journal ki tarah center karna */
+            .container {
+                max-width: 800px; 
+                margin: 0 auto;
+                background: #080101; 
+                box-shadow: 0 0 100px rgba(0,0,0,1); 
+                padding: 60px 80px;
+                border-left: 1px solid #220a0a;
+                border-right: 1px solid #220a0a;
+                position: relative;
+                z-index: 10;
+            }
+            .chapter {
+                width: 100%;
+                margin-bottom: 60px;
+                position: relative;
+                transform: none !important; /* Purana bug hatane ke liye */
+                opacity: 1 !important; /* Purana bug hatane ke liye */
+            }
+        }
             
     </style>
 </head>
