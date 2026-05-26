@@ -161,7 +161,41 @@
             mix-blend-mode: overlay; /* Yeh usko piche wale red theme ke sath mix karega */
             animation: grain-flicker 0.3s steps(5) infinite;
         }
-        
+                /* 💻 Desktop View: Real Book Layout */
+        @media (min-width: 800px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #050000; /* Darker outside the book */
+            }
+            
+            /* Container becomes the open book */
+            .book-container, .container, .main-content { 
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                max-width: 1000px;
+                padding: 40px;
+                background: #110505;
+                box-shadow: 0 0 50px rgba(100, 0, 0, 0.2);
+                border-radius: 10px;
+                margin-top: 20px;
+            }
+
+            /* Chapters become side-by-side pages */
+            .chapter, .section {
+                width: 46%; /* Adha hissa left, adha right */
+                margin-bottom: 40px;
+            }
+            
+            .cover-overlay {
+                /* Make cover look like a book cover on large screens */
+                max-width: 1000px;
+                margin: 0 auto;
+                left: 0; right: 0;
+            }
+            
     </style>
 </head>
 <body>
