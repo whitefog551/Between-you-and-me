@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Between You and Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0000;
+            color: #f5e6e6;
+            font-family: 'Lora', serif;
+            overflow-x: hidden;
+        }
+
+        /* Cute Book Cover Style */
+        .cover-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Yahan cover.jpg background me aayegi */
+            background-image: url('cover.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            /* 3D swing open animation ke liye */
+            transform-origin: left center;
+            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1.2s ease;
+            transform-style: preserve-3d;
+        }
+
+        /* Low Visibility ke liye Dark Red filter */
+        .cover-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(20, 0, 0, 0.85); /* 85% dark red filter taaki photo dhundhli aur aesthetic lage */
+            z-index: -1;
+        }
+
+        .cover-overlay.open {
+            transform: perspective(1500px) rotateY(-110deg); /* Kitaab ki tarah left khulega */
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.9);
+            color: #ffcccc;
+        }
+
+        .cover-subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 50px;
+        }
+
+        /* Cute Heartbeat Animation for Button */
+        .tap-to-open {
+            cursor: pointer;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,150,150,0.4);
+            background: rgba(0,0,0,0.5);
+            font-family: 'Lora', serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            animation: cute-bounce 1.5s infinite alternate;
+        }
+
+        @keyframes cute-bounce {
+            0% { transform: translateY(0) scale(1); box-shadow: 0 0 10px rgba(255, 50, 50, 0.2); }
+            100% { transform: translateY(-8px) scale(1.05); box-shadow: 0 0 20px rgba(255, 50, 50, 0.6); }
+        }
+
+        /* E-Book Main Content Styles */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1.5s forwards ease-in-out;
+        }
+
+        .chapter:nth-child(1) { animation-delay: 0.5s; }
+        .chapter:nth-child(2) { animation-delay: 1s; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #ff4d4d;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ff4d4d;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #e0caca;
+            text-align: justify;
+        }
+
+        .photo-box {
+            width: 100%;
+            height: 400px;
+            background: #1a0505;
+            border: 1px solid #4d1a1a;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+       /* Cinematic Film Dust Effect (100% Working) */
+        .film-grain {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Asli SVG Noise Generator */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.15; 
+            z-index: 10000; 
+            pointer-events: none;
+            mix-blend-mode: overlay; /* Yeh usko piche wale red theme ke sath mix karega */
+            animation: grain-flicker 0.3s steps(5) infinite;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Cover Page -->
+    <div id="book-cover" class="cover-overlay">
+        <h1 class="cover-title">Between You and Me</h1>
+        <p class="cover-subtitle">A journey of us, for Lailaa jii 🤍</p>
+        <div class="tap-to-open">Tap to Open</div>
+    </div>
+
+    <!-- E-book Content -->
+    <div class="container">
+        
+        <div class="chapter">
+            <h2>1. The First Page of Us</h2>
+            <div class="photo-box">
+                <img src="pehliyaad.jpg" alt="Memory">
+            </div>
+           <p> Zindagi me kuch log aise aate hain jo aapko badalte nahi hain, balki aapko aapse hi dobara mila dete hain. Lailaa jii, aapka meri zindagi me aana bhi bilkul aisa hi tha—ek khamosh sukoon ki tarah, jo bina shor kiye poore dil par chha jata hai.<br><br>
+    Jab hamari baatein shuru hui thin, tab mujhe nahi pata tha ki ‘Between You and Me’ sirf ek naam nahi rahega, balki ek aisi safe space ban jayega jahan main bina soche apne har jazbaat rakh sakta hoon. Aapke saath bitae gaye lamhe, woh dhere-dhere ek doosre ki aadat banna, aur bina kahe ek doosre ki dhoop-chhaon ko samajh lena—yeh sab kisi mizaaj se kam nahi hai.<br><br>
+    Yeh kitaab unhi chhote-chhote panno ka ek jahan hai jo humne saath milkar likhe hain. Yeh pehla safha us khubsoorat safar ke naam, jisne mujhe sikhaya ki jab aap sath hote ho, toh poori duniya ka shor ek taraf aur aapki baaton ka sukoon ek taraf ho jata hai.
+</p>
+        </div>
+
+        <div class="chapter">
+            <h2>2. The Depth of Us</h2>
+            <div class="photo-box">
+                <img src="heart.jpg" alt="Deep Talk">
+            </div>
+            <p>Lailaa jii ke baare me likhna kisi ek panno ki kahani nahi, balki ek aisa silsila hai jisme har shabd pichle se zyada gehra mehsoos hota hai. Humara safar sirf aam mulakaton ya halki-fulki baaton se nahi bana, balki yeh us 'Heart to Heart' aur 'Between You and Me' wali neev par khada hai, jahan humne lafzon ke zariye ek doosre ki rooh ko chhua hai. Duniya ke liye bonding ka matlab shayad sirf waqt bitana hota hoga, par humari bonding un gehre, lambe paragraphs me chhipi hai, jahan har ek sawaal aur har ek jawaab ne hume ek doosre ke aur kareeb lakar khada kar diya.<br><br>
+
+                    Mujhe yaad hai woh waqt jab hum bas baatein nahi kar rahe the, balki ek doosre ko padh rahe the. Ek taraf woh sawaal the jo humne ek doosre se pooche, taaki un jawabon me hum un jazbaaton ko dhoondh sakein jo aksar khamoshi me chhupe reh jaate hain. Aur doosri taraf thi woh nayi nayi cheezein, woh nayi feelings jo humne saath milkar seekhi. Har ek naye paragraph ke saath, maine aapke dil ke ek naye hisse ko explore kiya. Aapki pasand, aapke darr, aapki woh chhoti-chhoti aadatayein jinhe shayad aap khud bhi itna notice nahi karti hongi—woh sab mere liye kisi khazaane ki tarah the, jise main roz thoda aur samajhna chahta tha.<br><br>
+
+                    'Heart to Heart' sirf ek naam nahi tha, yeh ek waada tha ki mere andar ka har chal raha toofan, har ek ehsaas bina kisi parde ke seedha aapke dil tak pahuchega. Aur 'Between You and Me' ne hume yeh sikhaya ki is poori duniya me ek aisi jagah hai, ek aisi safe space hai, jahan kisi aur ka koi zor nahi, jahan sirf hum dono hain, aur hamare darmiyaan panapne wale woh naye-naye jazbaat hain. Jab aap un baaton ko padh kar apne ehsaas bayaan karti hain, toh lagta hai jaise waqt theher gaya ho. Aapki woh alag si perspective, aapka har naye emotion ko poore dil se apnana, aur bina soche mujhe apna sabse vulnerable side dikhana—yeh sab mujhe aapse baar-baar, aur pehle se zyada mohabbat karne par majboor kar deta hai.<br><br>
+
+                    Jab do log is gehrai me utarkar apne rishte ko waqt dete hain, toh woh sirf dost ya humsafar nahi reh jaate; woh ek doosre ki rooh ki aadat ban jaate hain. Yeh chapter usi aadat, un ankahe ehsaason, aur us khoobsurat bond ke naam hai, jise humne ek-ek paragraph, ek-ek naye sawaal, aur ek-ek nayi feeling se buniyaad di hai. Lailaa jii, aap mere un saare sawaalon ka woh sabse sukoon bhara jawaab hain, jise main poori zindagi padhna chahta hoon.
+                </p>
+        </div>
+
+        <div class="chapter">
+            <h2>3. Sukoon</h2>
+            <div class="photo-box">
+                <!-- Teri Sukoon wali faceless photo yahan aayegi -->
+                <img src="sukoon.jpg" alt="Sukoon">
+            </div>
+            <p>Zindagi ke shor me jab sab kuch bohot heavy lagne lagta hai, tab dil kisi aisi jagah ko dhoondhta hai jahan bina kuch kahe sab samajh liya jaye. Lailaa jii, mere liye woh jagah, woh thehrav sirf aap ho. Humari baatein, humare paragraphs aur 'Heart to Heart' sessions toh apni jagah bohot khaas hain, par aapke hone ka jo ek khamosh ehsaas hai, uski tulna kisi cheez se nahi ki ja sakti.<br><br>
+
+                    Kabhi kabhi sukoon isme nahi hota ki hum ghanton baatein karein; sukoon isme hota hai ki mujhe pata hai aap mere saath ho. Woh ek invisible connection jo bina kisi shabd ke hume jode rakhta hai. Jab duniya ki bheed aur uljhanein thaka deti hain, toh aapka bas ek khayal ya aapki ek chhoti si chahat kisi thandi hawa ke jhonke jaisi lagti hai. Is safar me maine jana hai ki jab aap paas hote ho, toh meri khamoshi ko bhi ek aawaz mil jati hai.<br><br>
+
+                    Aapki maujoodgi ne mujhe sikhaya hai ki sabse sacha bond sirf lafzon ka mohtaj nahi hota; woh khamoshi me bhi utni hi zor se dhadakta hai. Yeh panna us sukoon ke naam hai jo mujhe sirf aur sirf aapke hone se milta hai. Ek aisa sukoon jahan mujhe kuch sabit nahi karna padta, bas main khud ko poori tarah aapke hawale kar sakta hoon.
+                </p>
+        </div>
+
+        <div class="chapter">
+            <h2>4. Her Mind, Her World</h2>
+            <div class="photo-box">
+                <img src="her.jpg" alt="Her World">
+            </div>
+            <p>Yeh poori kitaab jab aapke naam hai, toh iska aakhiri hissa bhi sirf aapki shakhsiyat ke naam hona chahiye. Duniya ko shayad aapka sirf ek bahaari hissa dikhta ho, par 'Between You and Me' ke us safar me maine aapke dimaag aur aapki soch ko bohot kareeb se padha hai. Aur sach kahu, toh aapki woh duniya behad khubsoorat aur real hai.<br><br>
+
+                    Aapka cheezon ko dekhne ka nazariya, aapki woh aadat jahan aap chhoti-choti baaton me bhi deep feelings dhoondh leti hain... yeh sab koi banawati (fake) cheez nahi hai. Jab us series me aap apne jawabon aur paragraphs se apne khayalat rakhti thin, toh mujhe samajh aaya ki aapki soch kitni alag aur gahri hai. Aap apne andar jazbaaton ka ek poora samandar rakhti hain. Kabhi choti baaton par khush ho jana, aur kabhi kisi soch me itna gehra doob jana—yeh dikhata hai ki aap life ko kitni intensity ke saath jeeti hain.<br><br>
+
+                    Aap perfect dikhne ki koshish nahi karti, aur yahi aapki sabse badi khasiyat hai. Aapki woh raw honesty, aapka apne emotions (chahe woh khushi ho ya gussa) ko bina dare accept karna, aur life ki uljhano ke beech bhi apni ek alag pehchaan banaye rakhna... yahi cheezein mujhe aapki aur izzat karne par majboor karti hain. Yeh kitaab sirf humari baaton ka record nahi hai; yeh ek tribute hai aapki us soch ko, aapki us sachai ko, aur us Lailaa jii ko jise maine in panno ke zariye sach me jana hai.
+                </p>
+        </div>
+
+    </div>
+    <!-- Cinematic Film Dust Layer -->
+    <div class="film-grain"></div>
+    <script>
+        // Cover Page Open Animation Script
+        document.querySelector('.tap-to-open').addEventListener('click', function() {
+            document.getElementById('book-cover').classList.add('open');
+        });
+    </script>
+</body>
+</html>
